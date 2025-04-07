@@ -41,44 +41,44 @@ services:
       replicas: 1
     restart: always
 
-  keycloak:
-    image: dccontainer.azurecr.io/key-cloak:v6
-    ports:
-      - "80:8080"  # Exposing port 80 externally, maps to Keycloak's 8080 internally
-    environment:
-      KC_BOOTSTRAP_ADMIN_USERNAME: admin
-      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
-      KC_DB: mssql
-      KC_DB_URL: "jdbc:sqlserver://stage-keycloak-sqlserver.database.windows.net:1433;databaseName=stage-keycloak-db;user=stage-keycloak-admin;password=X39RA2s77GPz;encrypt=true;trustServerCertificate=false;loginTimeout=30;"
-      KC_DB_USERNAME: stage-keycloak-admin
-      KC_DB_PASSWORD: X39RA2s77GPz
-      KC_DB_DRIVER: com.microsoft.sqlserver.jdbc.SQLServerDriver
-      KC_DB_SCHEMA: dbo
-      KC_HTTP_ENABLED: "true"
-      KC_HTTP_PORT: "8080"
-    command: >
-      start
-      --spi-phone-default-service=msg91
-      --spi-message-sender-service-msg91-authkey=403328AQztEucf64d5d854P1
-      --spi-message-sender-service-msg91-templateid=67761e3ed6fc05082178a502
-      --hostname-strict=false
-      --spi-phone-default-source-hour-maximum=0
-      --spi-phone-default-target-hour-maximum=0
-      --spi-phone-default-token-expires-in=120
-      --spi-phone-default-phone-default-region=IN
-      --spi-phone-default-canonicalize-phone-numbers=E164
-      --hostname=http://98.70.55.186/
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
-      placement:
-        constraints:
-          - node.role == manager
-      update_config:
-        order: stop-first
-    secrets:
-      - acr-secret
+  # keycloak:
+  #   image: dccontainer.azurecr.io/key-cloak:v6
+  #   ports:
+  #     - "80:8080"  # Exposing port 80 externally, maps to Keycloak's 8080 internally
+  #   environment:
+  #     KC_BOOTSTRAP_ADMIN_USERNAME: admin
+  #     KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+  #     KC_DB: mssql
+  #     KC_DB_URL: "jdbc:sqlserver://stage-keycloak-sqlserver.database.windows.net:1433;databaseName=stage-keycloak-db;user=stage-keycloak-admin;password=X39RA2s77GPz;encrypt=true;trustServerCertificate=false;loginTimeout=30;"
+  #     KC_DB_USERNAME: stage-keycloak-admin
+  #     KC_DB_PASSWORD: X39RA2s77GPz
+  #     KC_DB_DRIVER: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  #     KC_DB_SCHEMA: dbo
+  #     KC_HTTP_ENABLED: "true"
+  #     KC_HTTP_PORT: "8080"
+  #   command: >
+  #     start
+  #     --spi-phone-default-service=msg91
+  #     --spi-message-sender-service-msg91-authkey=403328AQztEucf64d5d854P1
+  #     --spi-message-sender-service-msg91-templateid=67761e3ed6fc05082178a502
+  #     --hostname-strict=false
+  #     --spi-phone-default-source-hour-maximum=0
+  #     --spi-phone-default-target-hour-maximum=0
+  #     --spi-phone-default-token-expires-in=120
+  #     --spi-phone-default-phone-default-region=IN
+  #     --spi-phone-default-canonicalize-phone-numbers=E164
+  #     --hostname=http://98.70.55.186/
+  #   deploy:
+  #     replicas: 1
+  #     restart_policy:
+  #       condition: on-failure
+  #     placement:
+  #       constraints:
+  #         - node.role == manager
+  #     update_config:
+  #       order: stop-first
+  #   secrets:
+  #     - acr-secret
 
 volumes:
   minio_data:
